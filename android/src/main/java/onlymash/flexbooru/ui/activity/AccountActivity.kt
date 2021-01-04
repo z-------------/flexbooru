@@ -174,19 +174,15 @@ class AccountActivity : PathActivity() {
                 .into(binding.userAvatar)
         }
         binding.favActionButton.setOnClickListener {
-            if (booru.type == BOORU_TYPE_GEL) {
-                val url = "${booru.scheme}://${booru.host}/index.php?page=favorites&s=view&id=${user.id}"
-                launchUrl(url)
-            } else {
-                val query = when (booru.type) {
-                    BOORU_TYPE_DAN,
-                    BOORU_TYPE_DAN1,
-                    BOORU_TYPE_SANKAKU -> String.format("fav:%s", user.name)
-                    BOORU_TYPE_MOE -> String.format("vote:3:%s order:vote", user.name)
-                    else -> null
-                }
-                searchPost(query)
+            val query = when (booru.type) {
+                BOORU_TYPE_DAN,
+                BOORU_TYPE_DAN1,
+                BOORU_TYPE_SANKAKU -> String.format("fav:%s", user.name)
+                BOORU_TYPE_MOE -> String.format("vote:3:%s order:vote", user.name)
+                BOORU_TYPE_GEL -> String.format("fav:%d", user.id)
+                else -> null
             }
+            searchPost(query)
         }
         binding.postsActionButton.setOnClickListener {
             if (booru.type == BOORU_TYPE_GEL) {
